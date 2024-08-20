@@ -1,0 +1,20 @@
+expr    : term ((PLUS|MINUS) term)*
+
+term    : factor ((MUL|DIV|MODULO) factor)*
+
+factor  : INT|FLOAT
+				: (PLUS|MINUS) factor
+				: LPAREN expr RPAREN
+
+BNF:
+
+<expr>   ::= <term> ("+" <term> | "-" <term>) | <term>
+
+<term>   ::= <factor> ("*" <factor> | "/" <factor>) |"%" <factor>) | <factor>
+
+<factor> ::= <INT> 
+           | "+" <factor> 
+           | "-" <factor> 
+           | "(" <expr> ")"
+
+<INT>    ::= [0-9] | <INT> [0-9]
