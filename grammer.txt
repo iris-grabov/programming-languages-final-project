@@ -1,20 +1,36 @@
-expr    : term ((PLUS|MINUS) term)*
-
-term    : factor ((MUL|DIV|MODULO) factor)*
-
-factor  : INT|FLOAT
-				: (PLUS|MINUS) factor
-				: LPAREN expr RPAREN
-
 BNF:
 
-<expr>   ::= <term> ("+" <term> | "-" <term>) | <term>
+<expr> ::= <comp-expr> "&&" <comp-expr>  
+          | <comp-expr> "||" <comp-expr>   
+          | <comp-expr> | <BOOLEAN>
+          | <BOOLEAN> "&&" <BOOLEAN> 
+          | <BOOLEAN> "||" <BOOLEAN>
 
-<term>   ::= <factor> ("*" <factor> | "/" <factor>) |"%" <factor>) | <factor>
+
+<comp-expr> ::= "!" <comp-expr>  
+              | <arith-expr> "==" <arith-expr> 
+              | <arith-expr> "!=" <arith-expr> 
+              | <arith-expr> ">" <arith-expr> 
+              | <arith-expr> "<" <arith-expr> 
+              | <arith-expr> ">=" <arith-expr> 
+              | <arith-expr> "<=" <arith-expr> 
+              | <arith-expr> 
+              | "!" <BOOLEAN>
+
+<arith-expr> ::= <term> "+" <term> 
+               | <term> "-" <term> 
+               | <term>
+
+<term> ::= <factor> "*" <factor> 
+         | <factor> "/" <factor> 
+         | <factor> "%" <factor> 
+         | <factor>
 
 <factor> ::= <INT> 
            | "+" <factor> 
            | "-" <factor> 
            | "(" <expr> ")"
 
-<INT>    ::= [0-9] | <INT> [0-9]
+<INT> ::= [0-9] | <INT> [0-9]
+
+<BOOLEAN> ::= "TRUE" | "FALSE"
