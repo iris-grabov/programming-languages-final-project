@@ -142,10 +142,11 @@ TT_GTE = 'GTE'
 TT_EOF = 'EOF'  #end of file
 
 KEYWORDS = [
-
     '&&',
     '||',
-    '!'
+    '!',
+    'TRUE',
+    'FALSE'
 ]
 
 
@@ -193,6 +194,12 @@ class Lexer:
         while self.current_char != None and self.current_char in LETTERS_DIGITS + '_':
             id_str += self.current_char
             self.advance()
+
+        # Handle boolean values
+        if id_str == "TRUE":
+            return Token(TT_INT, 1, pos_start, self.pos)
+        elif id_str == "FALSE":
+            return Token(TT_INT, 0, pos_start, self.pos)
 
         tok_type = TT_KEYWORD if id_str in KEYWORDS else TT_IDENTIFIER
         return Token(tok_type, id_str, pos_start, self.pos)
