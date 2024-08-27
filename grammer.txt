@@ -1,0 +1,40 @@
+
+BNF:
+
+<expr> ::= <comp-expr> | <comp-expr> KEYWORD:AND <expr> | <comp-expr> KEYWORD:OR <expr>
+
+<comp-expr> ::= "NOT" <comp-expr> 
+              | <arith-expr> ("==" | "<" | ">" | "<=" | ">=") <comp-expr> 
+              | <arith-expr>
+
+<arith-expr> ::= <term> | <term> "+" <arith-expr> | <term> "-" <arith-expr>
+
+<term> ::= <factor> | <factor> ("*" | "/" | "%") <term>
+
+<factor> ::= <call>  | "+" <factor> | "-" <factor> 
+
+<call> ::=<atom> |<atom> "(" <arg_list> ")" 
+
+<arg_list> ::=<expr>| <expr> "," <arg_list>
+
+<atom > ::= IDENTIFIER |<INT>| <BOOLEAN>| "(" expr ")"| <func-def> | <lambda-expr> 
+
+<func-def> ::= KEYWORD:Defun IDENTIFIER? "(" (IDENTIFIER ("," IDENTIFIER)* )? ")" "->" <expr>
+
+<lambda-expr> ::= KEYWORD:Lambda <params> "." "(" <expr> ")" "(" <int-list> ")"
+
+<params> ::= <IDENTIFIER> | <IDENTIFIER> "," <params>
+
+<int-list> ::= <INT> | <INT> "," <int-list>
+
+<IDENTIFIER> ::= <LETTER> <identifier-tail>
+
+<identifier-tail> ::= <LETTER> <identifier-tail> | <INT> <identifier-tail> | ε
+
+<LETTER>::= [A-Z] | [a-z] 
+
+<INT> ::= [0-9] | [0-9]<INT>
+
+<BOOLEAN> ::= "TRUE" | "FALSE"
+
+
